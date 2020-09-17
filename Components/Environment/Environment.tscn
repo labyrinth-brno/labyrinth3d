@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Components/Environment/default_env.tres" type="Environment" id=1]
+[ext_resource path="res://Components/Environment/environment.gd" type="Script" id=2]
+
+[node name="Environment" type="WorldEnvironment"]
+environment = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="Sun" type="DirectionalLight" parent="."]
+transform = Transform( 0.173648, -0.564863, 0.806707, 0, 0.819152, 0.573576, -0.984808, -0.0996005, 0.142244, 0, 0, 0 )
