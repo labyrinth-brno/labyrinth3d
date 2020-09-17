@@ -24,3 +24,13 @@ margin_top = 284.0
 margin_right = 528.0
 margin_bottom = 316.0
 texture = ExtResource( 1 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = 19.2075
+margin_top = 17.73
+margin_right = 59.2075
+margin_bottom = 31.73
+text = "Labyrinth demo project"
+__meta__ = {
+"_edit_use_anchors_": false
+}
