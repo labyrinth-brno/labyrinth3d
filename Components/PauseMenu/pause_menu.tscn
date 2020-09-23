@@ -1,14 +1,25 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Components/PauseMenu/crosshair.svg" type="Texture" id=1]
+[ext_resource path="res://Assets/TinyUnicode.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Assets/TinyUnicode.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://Components/PauseMenu/pause_menu.gd" type="Script" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 33
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 50
+font_data = ExtResource( 3 )
 
 [node name="UI" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 4 )
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": false,
+"_edit_vertical_guides_": [ 705.115, 317.272 ]
 }
 
 [node name="Crosshair" type="CenterContainer" parent="."]
@@ -30,7 +41,85 @@ margin_left = 19.2075
 margin_top = 17.73
 margin_right = 59.2075
 margin_bottom = 31.73
-text = "Labyrinth demo project"
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_outline_modulate = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 1, 1, 1, 1 )
+custom_constants/shadow_offset_x = 1
+custom_constants/shadow_offset_y = 1
+custom_constants/shadow_as_outline = 1
+text = "LabCraft 0.1"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Network" type="Panel" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -216.0
+margin_top = -254.0
+margin_right = 216.0
+margin_bottom = 154.0
+
+[node name="Label" type="Label" parent="Network"]
+margin_left = 16.8287
+margin_top = 2.33315
+margin_right = 411.829
+margin_bottom = 55.3331
+custom_fonts/font = ExtResource( 2 )
+text = "LabCraft 0.1"
+align = 1
+valign = 1
+
+[node name="ServerBtn" type="Button" parent="Network"]
+margin_left = 23.4775
+margin_top = 166.605
+margin_right = 409.477
+margin_bottom = 219.605
+custom_fonts/font = SubResource( 1 )
+text = "Start game"
+
+[node name="ClientBtn" type="Button" parent="Network"]
+margin_left = 263.892
+margin_top = 246.145
+margin_right = 407.892
+margin_bottom = 299.145
+custom_fonts/font = SubResource( 1 )
+text = "Join game"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Quit" type="Button" parent="Network"]
+margin_left = 25.5225
+margin_top = 334.1
+margin_right = 406.523
+margin_bottom = 387.1
+custom_fonts/font = SubResource( 1 )
+text = "Quit game"
+
+[node name="Nickname" type="LineEdit" parent="Network"]
+margin_left = 22.0
+margin_top = 83.0
+margin_right = 406.0
+margin_bottom = 134.0
+custom_fonts/font = SubResource( 2 )
+text = "nickname"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IP" type="LineEdit" parent="Network"]
+margin_left = 24.0
+margin_top = 246.0
+margin_right = 262.0
+margin_bottom = 297.0
+custom_fonts/font = SubResource( 2 )
+text = "127.0.0.1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="Network/ServerBtn" to="." method="_on_ServerBtn_pressed"]
+[connection signal="pressed" from="Network/ClientBtn" to="." method="_on_ClientBtn_pressed"]
+[connection signal="pressed" from="Network/Quit" to="." method="_on_Quit_pressed"]

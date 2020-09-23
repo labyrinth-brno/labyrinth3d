@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Components/Player/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Components/PauseMenu/pause_menu.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Components/Environment/Environment.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/World.gd" type="Script" id=4]
 
 [sub_resource type="CubeMesh" id=1]
 
@@ -13,19 +14,17 @@ albedo_color = Color( 0.266667, 0.960784, 0.101961, 1 )
 
 [sub_resource type="BoxShape" id=4]
 
-[sub_resource type="CubeMesh" id=7]
+[sub_resource type="CubeMesh" id=5]
 
-[sub_resource type="Skin" id=9]
+[sub_resource type="Skin" id=6]
 
-[sub_resource type="BoxShape" id=8]
+[sub_resource type="BoxShape" id=7]
 extents = Vector3( 1, 1, 1.00134 )
 
 [node name="World" type="Spatial"]
+script = ExtResource( 4 )
 
 [node name="UI" parent="." instance=ExtResource( 2 )]
-
-[node name="Player" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25602, 2.2067, 4.45352 )
 
 [node name="Env" type="Spatial" parent="."]
 
@@ -43,141 +42,147 @@ shape = SubResource( 4 )
 [node name="Environment" parent="Env" instance=ExtResource( 3 )]
 
 [node name="Wall" type="Spatial" parent="Env"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.79098 )
 
 [node name="MeshInstance2" type="MeshInstance" parent="Env/Wall"]
 transform = Transform( 1, 0, 0, 0, 2.60739, 0, 0, 0, 1, 0, 2.74085, 0 )
-mesh = SubResource( 7 )
-skin = SubResource( 9 )
+mesh = SubResource( 5 )
+skin = SubResource( 6 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Env/Wall/MeshInstance2"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Env/Wall/MeshInstance2/StaticBody"]
-shape = SubResource( 8 )
+shape = SubResource( 7 )
 
 [node name="Strop" type="MeshInstance" parent="Env/Wall"]
 transform = Transform( 0.0247639, 5.47248, 0, -0.168518, 0.00518432, 0, 0, 0, 1, 0, 4.34324, 0 )
-mesh = SubResource( 7 )
-skin = SubResource( 9 )
+mesh = SubResource( 5 )
+skin = SubResource( 6 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Env/Wall/Strop"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Env/Wall/Strop/StaticBody"]
-shape = SubResource( 8 )
+shape = SubResource( 7 )
 
 [node name="MeshInstance4" type="MeshInstance" parent="Env/Wall"]
 transform = Transform( 1, 0, 0, 0, 2.60739, 0, 0, 0, 1, -4.99359, 2.74085, 0 )
-mesh = SubResource( 7 )
-skin = SubResource( 9 )
+mesh = SubResource( 5 )
+skin = SubResource( 6 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Env/Wall/MeshInstance4"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Env/Wall/MeshInstance4/StaticBody"]
-shape = SubResource( 8 )
+shape = SubResource( 7 )
 
 [node name="MeshInstance3" type="MeshInstance" parent="Env/Wall"]
 transform = Transform( 1, 0, 0, 0, 2.60739, 0, 0, 0, 1, 4.48881, 2.74085, 0 )
-mesh = SubResource( 7 )
-skin = SubResource( 9 )
+mesh = SubResource( 5 )
+skin = SubResource( 6 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Env/Wall/MeshInstance3"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Env/Wall/MeshInstance3/StaticBody"]
-shape = SubResource( 8 )
+shape = SubResource( 7 )
 
 [node name="Wall2" type="Spatial" parent="Env"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.86483, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.86483, 0, -5.76104 )
 
 [node name="MeshInstance2" type="MeshInstance" parent="Env/Wall2"]
 transform = Transform( 1, 0, 0, 0, 2.60739, 0, 0, 0, 1, 0, 2.74085, 0 )
-mesh = SubResource( 7 )
-skin = SubResource( 9 )
+mesh = SubResource( 5 )
+skin = SubResource( 6 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Env/Wall2/MeshInstance2"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Env/Wall2/MeshInstance2/StaticBody"]
-shape = SubResource( 8 )
+shape = SubResource( 7 )
 
 [node name="Strop" type="MeshInstance" parent="Env/Wall2"]
 transform = Transform( 0.0247639, 5.47248, 0, -0.168518, 0.00518432, 0, 0, 0, 1, 0, 4.34324, 0 )
-mesh = SubResource( 7 )
-skin = SubResource( 9 )
+mesh = SubResource( 5 )
+skin = SubResource( 6 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Env/Wall2/Strop"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Env/Wall2/Strop/StaticBody"]
-shape = SubResource( 8 )
+shape = SubResource( 7 )
 
 [node name="MeshInstance4" type="MeshInstance" parent="Env/Wall2"]
 transform = Transform( 1, 0, 0, 0, 2.60739, 0, 0, 0, 1, -4.99359, 2.74085, 0 )
-mesh = SubResource( 7 )
-skin = SubResource( 9 )
+mesh = SubResource( 5 )
+skin = SubResource( 6 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Env/Wall2/MeshInstance4"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Env/Wall2/MeshInstance4/StaticBody"]
-shape = SubResource( 8 )
+shape = SubResource( 7 )
 
 [node name="MeshInstance3" type="MeshInstance" parent="Env/Wall2"]
 transform = Transform( 1, 0, 0, 0, 2.60739, 0, 0, 0, 1, 4.48881, 2.74085, 0 )
-mesh = SubResource( 7 )
-skin = SubResource( 9 )
+mesh = SubResource( 5 )
+skin = SubResource( 6 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Env/Wall2/MeshInstance3"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Env/Wall2/MeshInstance3/StaticBody"]
-shape = SubResource( 8 )
+shape = SubResource( 7 )
 
 [node name="Wall3" type="Spatial" parent="Env"]
-transform = Transform( 0.0600554, 0, 0.998195, 0, 1, 0, -0.998195, 0, 0.0600554, -5.09377, 0, -9.71735 )
+transform = Transform( 0.0600554, 0, 0.998195, 0, 1, 0, -0.998195, 0, 0.0600554, -5.09377, 0, -11.1289 )
 
 [node name="MeshInstance2" type="MeshInstance" parent="Env/Wall3"]
 transform = Transform( 1, 0, 0, 0, 2.60739, 0, 0, 0, 1, 0, 2.74085, 0 )
-mesh = SubResource( 7 )
-skin = SubResource( 9 )
+mesh = SubResource( 5 )
+skin = SubResource( 6 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Env/Wall3/MeshInstance2"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Env/Wall3/MeshInstance2/StaticBody"]
-shape = SubResource( 8 )
+shape = SubResource( 7 )
 
 [node name="Strop" type="MeshInstance" parent="Env/Wall3"]
 transform = Transform( 0.0247639, 5.47248, 0, -0.168518, 0.00518432, 0, 0, 0, 1, 0, 4.34324, 0 )
-mesh = SubResource( 7 )
-skin = SubResource( 9 )
+mesh = SubResource( 5 )
+skin = SubResource( 6 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Env/Wall3/Strop"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Env/Wall3/Strop/StaticBody"]
-shape = SubResource( 8 )
+shape = SubResource( 7 )
 
 [node name="MeshInstance4" type="MeshInstance" parent="Env/Wall3"]
 transform = Transform( 1, 0, 0, 0, 2.60739, 0, 0, 0, 1, -4.99359, 2.74085, 0 )
-mesh = SubResource( 7 )
-skin = SubResource( 9 )
+mesh = SubResource( 5 )
+skin = SubResource( 6 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Env/Wall3/MeshInstance4"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Env/Wall3/MeshInstance4/StaticBody"]
-shape = SubResource( 8 )
+shape = SubResource( 7 )
 
 [node name="MeshInstance3" type="MeshInstance" parent="Env/Wall3"]
 transform = Transform( 1, 0, 0, 0, 2.60739, 0, 0, 0, 1, 4.48881, 2.74085, 0 )
-mesh = SubResource( 7 )
-skin = SubResource( 9 )
+mesh = SubResource( 5 )
+skin = SubResource( 6 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Env/Wall3/MeshInstance3"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Env/Wall3/MeshInstance3/StaticBody"]
-shape = SubResource( 8 )
+shape = SubResource( 7 )
+
+[node name="Players" type="Spatial" parent="."]
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25602, 2.2067, 1.71402 )

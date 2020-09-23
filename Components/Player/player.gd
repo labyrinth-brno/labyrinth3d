@@ -10,15 +10,18 @@ onready var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 onready var head = $Head
 onready var raycast = $Head/RayCast
 onready var selected_block_texture = $SelectedBlock
-onready var voxel_world = $"../World"
+onready var world = get_node("/root/World")
 onready var crosshair = get_node("/root/World/UI/Crosshair")
 
+const UPDATE_PERIOD = 0
 
-func _ready():
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-
+var update_timeout = UPDATE_PERIOD
+var updated = true
 
 func _process(_delta):
+	if world.paused:
+		return
+		
 	# Mouse movement.
 	_mouse_motion.y = clamp(_mouse_motion.y, -1550, 1550)
 	transform.basis = Basis(Vector3(0, _mouse_motion.x * -0.001, 0))
@@ -30,7 +33,7 @@ func _process(_delta):
 	if Input.is_action_just_pressed("pick_block"):
 		# Block picking.
 		var block_global_position = (position - normal / 2).floor()
-		_selected_block = voxel_world.get_block_global_position(block_global_position)
+		_selected_block = world.get_block_global_position(block_global_position)
 	else:
 		# Block prev/next keys.
 		if Input.is_action_just_pressed("prev_block"):
@@ -52,10 +55,10 @@ func _process(_delta):
 		
 		if breaking:
 			var block_global_position = (position - normal / 2).floor()
-			voxel_world.set_block_global_position(block_global_position, 0)
+			world.set_block_global_position(block_global_position, 0)
 		elif placing:
 			var block_global_position = (position + normal / 2).floor()
-			voxel_world.set_block_global_position(block_global_position, _selected_block)
+			world.set_block_global_position(block_global_position, _selected_block)
 
 
 func _physics_process(delta):
@@ -76,8 +79,19 @@ func _physics_process(delta):
 	# Gravity.
 	velocity.y -= gravity * delta
 	
+	updated = abs(velocity.x) < 0.1 && abs(velocity.z) < 0.1
+		
 	#warning-ignore:return_value_discarded
 	velocity = move_and_slide(Vector3(movement.x, velocity.y, movement.z), Vector3.UP)
+	
+	if !updated:
+		world.distribute_position(translation)
+		updated = true
+		
+		#update_timeout -= delta
+		#if update_timeout <= 0:
+		#	update_timeout = UPDATE_PERIOD
+		#	updated = true	
 	
 	# Jumping, applied next frame.
 	if is_on_floor() and Input.is_action_pressed("jump"):
