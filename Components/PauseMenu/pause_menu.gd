@@ -37,11 +37,11 @@ func _on_Quit_pressed():
 	_on_Exit_pressed()
 
 func _on_ServerBtn_pressed():
-	world.start_server($Network/Nickname)
+	world.start_server($Network/Nickname.text)
 	$Label.text = "SERVER"
 	hide_menu()
 
 func _on_ClientBtn_pressed():
-	world.start_client($Network/Nickname, $Network/IP)
+	world.start_client($Network/Nickname.text, $Network/IP.text)
 	$Label.text = "CLIENT"
 	hide_menu()
