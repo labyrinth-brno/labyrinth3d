@@ -51,18 +51,23 @@ func _player_connected(id):
 	distribute_position(player.translation)
 	add_log("=> Connected and drawed player: " + str(id) + " rendered at: " + str(player.translation));
 	
+func _player_disconnected(id):
+	var player = $Players.get_node("pl_" + str(id))
+	player.queue_free()
+	add_log("--- player " + str(id) + " disconnected.. ");
+	
 remote func update_remote_player_position(id, pos: Vector3):
 	print("ipdating pos of: " + str(id))
 	if id != self_id:
 		var player = $Players.get_node("pl_" + str(id))
 		if player:
-			print("UPDATING PLAYER's " + str(id) + " POSITION TO " + str(pos))
+			#print("UPDATING PLAYER's " + str(id) + " POSITION TO " + str(pos))
 			player.translate(pos - player.translation)	
 			#player.target_position = pos
 	
 func distribute_position(new_pos):
 	print("distributing my pos: " + str(new_pos));
-	rpc("update_remote_player_position", get_tree().get_network_unique_id(), new_pos)
+	rpc_unreliable("update_remote_player_position", get_tree().get_network_unique_id(), new_pos)
 	
 remote func register_player(id, info):
 	players[id] = info
