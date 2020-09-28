@@ -169,6 +169,7 @@ func set_block_global_position(block_global_position, block_id):
 	else:
 		chunk.data[sub_position] = block_id
 	chunk.regenerate()
+	print(chunk.data);
 	
 	# We also might need to regenerate some neighboring chunks.
 	if Chunk.is_block_transparent(block_id):
@@ -184,8 +185,8 @@ func set_block_global_position(block_global_position, block_id):
 			_chunks[chunk_position + Vector3.DOWN].regenerate()
 		elif sub_position.y == CHUNK_END_SIZE:
 			_chunks[chunk_position + Vector3.UP].regenerate()
-
-
+	
+	
 func clean_up():
 	for chunk_position_key in _chunks.keys():
 		var thread = _chunks[chunk_position_key]._thread

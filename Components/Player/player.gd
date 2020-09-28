@@ -96,12 +96,18 @@ func _physics_process(delta):
 	if is_on_floor() and Input.is_action_pressed("jump"):
 		velocity.y = 6.5
 
+	
+	if translation.y < -30:
+		die()
 
 func _input(event):
 	if event is InputEventMouseMotion:
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 			_mouse_motion += event.relative
 
-
 func chunk_pos():
 	return (transform.origin / Chunk.CHUNK_SIZE).floor()
+
+func die():
+	print("DEAD")
+	translate(Vector3(-5, 50, 0))
