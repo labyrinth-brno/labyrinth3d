@@ -9,7 +9,6 @@ const CHUNK_SIZE = 16
 static func empty():
 	return {}
 
-
 static func random_blocks():
 	var random_data = {}
 	for x in range(CHUNK_SIZE):

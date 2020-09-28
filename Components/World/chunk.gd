@@ -21,10 +21,7 @@ onready var voxel_world = get_parent()
 func _ready():
 	transform.origin = chunk_position * CHUNK_SIZE
 	name = str(chunk_position)
-	if Settings.world_type == 0:
-		data = TerrainGenerator.random_blocks()
-	else:
-		data = TerrainGenerator.flat(chunk_position)
+	data = TerrainGenerator.flat(chunk_position)
 	
 	# We can only add colliders in the main thread due to physics limitations.
 	_generate_chunk_collider()

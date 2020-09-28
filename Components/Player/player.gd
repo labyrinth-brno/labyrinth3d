@@ -13,7 +13,7 @@ onready var selected_block_texture = $SelectedBlock
 onready var world = get_node("/root/World")
 onready var crosshair = get_node("/root/World/UI/Crosshair")
 
-const UPDATE_PERIOD = 0
+const UPDATE_PERIOD = 0.2
 
 var update_timeout = UPDATE_PERIOD
 var updated = true
@@ -42,8 +42,9 @@ func _process(_delta):
 			_selected_block += 1
 		_selected_block = wrapi(_selected_block, 1, 30)
 	# Set the appropriate texture.
-	#var uv = Chunk.calculate_block_uvs(_selected_block)
-	#selected_block_texture.texture.region = Rect2(uv[0] * 512, Vector2.ONE * 64)
+	
+	var uv = Chunk.calculate_block_uvs(_selected_block)
+	selected_block_texture.texture.region = Rect2(uv[0] * 512, Vector2.ONE * 64)
 	
 	# Block breaking/placing.
 	if crosshair.visible and raycast.is_colliding():
@@ -85,17 +86,15 @@ func _physics_process(delta):
 	velocity = move_and_slide(Vector3(movement.x, velocity.y, movement.z), Vector3.UP)
 	
 	if !updated:
-		world.distribute_position(translation)
-		updated = true
-		
-		#update_timeout -= delta
-		#if update_timeout <= 0:
-		#	update_timeout = UPDATE_PERIOD
-		#	updated = true	
+		update_timeout -= delta
+		if update_timeout <= 0:
+			world.distribute_position(translation)
+			update_timeout = UPDATE_PERIOD
+			updated = true	
 	
 	# Jumping, applied next frame.
 	if is_on_floor() and Input.is_action_pressed("jump"):
-		velocity.y = 5
+		velocity.y = 6.5
 
 
 func _input(event):
@@ -104,5 +103,5 @@ func _input(event):
 			_mouse_motion += event.relative
 
 
-#func chunk_pos():
-#	return (transform.origin / Chunk.CHUNK_SIZE).floor()
+func chunk_pos():
+	return (transform.origin / Chunk.CHUNK_SIZE).floor()
