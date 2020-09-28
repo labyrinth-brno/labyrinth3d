@@ -56,11 +56,13 @@ func _process(_delta):
 		
 		if breaking:
 			var block_global_position = (position - normal / 2).floor()
+			world.distribute_set_block(block_global_position, 0)
 			world.set_block_global_position(block_global_position, 0)
+	
 		elif placing:
 			var block_global_position = (position + normal / 2).floor()
+			world.distribute_set_block(block_global_position, _selected_block)
 			world.set_block_global_position(block_global_position, _selected_block)
-
 
 func _physics_process(delta):
 	# Crouching.
@@ -109,5 +111,4 @@ func chunk_pos():
 	return (transform.origin / Chunk.CHUNK_SIZE).floor()
 
 func die():
-	print("DEAD")
 	translate(Vector3(-5, 50, 0))

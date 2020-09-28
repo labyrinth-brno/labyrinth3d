@@ -81,9 +81,20 @@ remote func update_remote_player_position(id, pos: Vector3):
 			player.translate(pos - player.translation)	
 			#player.target_position = pos
 	
+remote func remote_set_block(id, block_pos, block_id):
+	print("... remote_set_block")
+	if id != self_id:
+		print("SETTING REMOTE BLOCK: " + str(block_pos) + " => " + str(block_id))
+		set_block_global_position(block_pos, block_id)
+	
 func distribute_position(new_pos):
 	rpc_unreliable("update_remote_player_position", get_tree().get_network_unique_id(), new_pos)
 	
+func distribute_set_block(block_position, block_id):
+	print("Distributing new block at " + str(block_position) + " ID: " + str(block_id))
+	rpc("remote_set_block", get_tree().get_network_unique_id(), block_position, block_id)
+	
+
 remote func register_player(id, info):
 	players[id] = info
 	if get_tree().is_network_server():
@@ -169,7 +180,6 @@ func set_block_global_position(block_global_position, block_id):
 	else:
 		chunk.data[sub_position] = block_id
 	chunk.regenerate()
-	print(chunk.data);
 	
 	# We also might need to regenerate some neighboring chunks.
 	if Chunk.is_block_transparent(block_id):
