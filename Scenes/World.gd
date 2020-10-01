@@ -81,19 +81,16 @@ remote func update_remote_player_position(id, pos: Vector3):
 			player.translate(pos - player.translation)	
 			#player.target_position = pos
 	
-remote func remote_set_block(id, block_pos, block_id):
-	print("... remote_set_block")
-	if id != self_id:
-		print("SETTING REMOTE BLOCK: " + str(block_pos) + " => " + str(block_id))
-		set_block_global_position(block_pos, block_id)
-	
 func distribute_position(new_pos):
 	rpc_unreliable("update_remote_player_position", get_tree().get_network_unique_id(), new_pos)
-	
+
+remote func remote_set_block(id, block_pos, block_id):
+	# TODO:
+	pass
+		
 func distribute_set_block(block_position, block_id):
-	print("Distributing new block at " + str(block_position) + " ID: " + str(block_id))
-	rpc("remote_set_block", get_tree().get_network_unique_id(), block_position, block_id)
-	
+	# TODO
+	pass
 
 remote func register_player(id, info):
 	players[id] = info
@@ -170,7 +167,9 @@ func get_block_global_position(block_global_position):
 			return chunk.data[sub_position]
 	return 0
 
-
+#############################################################
+# Nastaveni bloku na zadane pozici
+#############################################################
 func set_block_global_position(block_global_position, block_id):
 	var chunk_position = (block_global_position / Chunk.CHUNK_SIZE).floor()
 	var chunk = _chunks[chunk_position]

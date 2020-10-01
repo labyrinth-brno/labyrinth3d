@@ -56,12 +56,12 @@ func _process(_delta):
 		
 		if breaking:
 			var block_global_position = (position - normal / 2).floor()
-			world.distribute_set_block(block_global_position, 0)
+			# world.distribute_set_block(block_global_position, 0)
 			world.set_block_global_position(block_global_position, 0)
 	
 		elif placing:
 			var block_global_position = (position + normal / 2).floor()
-			world.distribute_set_block(block_global_position, _selected_block)
+			# world.distribute_set_block(block_global_position, _selected_block)
 			world.set_block_global_position(block_global_position, _selected_block)
 
 func _physics_process(delta):
