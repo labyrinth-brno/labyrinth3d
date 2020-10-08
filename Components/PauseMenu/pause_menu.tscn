@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Components/PauseMenu/crosshair.svg" type="Texture" id=1]
 [ext_resource path="res://Assets/TinyUnicode.tres" type="DynamicFont" id=2]
@@ -11,6 +11,10 @@ font_data = ExtResource( 3 )
 
 [sub_resource type="DynamicFont" id=2]
 size = 50
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 70
 font_data = ExtResource( 3 )
 
 [node name="UI" type="Control"]
@@ -120,6 +124,26 @@ text = "127.0.0.1"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Loading" type="Panel" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -206.0
+margin_top = -76.5
+margin_right = 206.0
+margin_bottom = 76.5
+
+[node name="Label" type="Label" parent="Loading"]
+margin_left = 38.0
+margin_top = 36.0
+margin_right = 370.0
+margin_bottom = 103.0
+custom_fonts/font = SubResource( 3 )
+text = "LOADING ..."
+align = 1
 [connection signal="pressed" from="Network/ServerBtn" to="." method="_on_ServerBtn_pressed"]
 [connection signal="pressed" from="Network/ClientBtn" to="." method="_on_ClientBtn_pressed"]
 [connection signal="pressed" from="Network/Quit" to="." method="_on_Quit_pressed"]

@@ -100,10 +100,9 @@ func distribute_set_block(block_position, block_id):
 	 
 	
 remote func generate_terrain(data):
-	print("LOADING...")
 	for block_position in data.keys():
 		set_block_global_position(block_position, data[block_position])
-	print("DONE")
+	get_node("UI/Loading").hide()
 	
 remote func register_player(id, info):
 	players[id] = info
@@ -118,6 +117,7 @@ remote func register_player(id, info):
 	
 ## CLIENT PART ##########################
 func _connected_ok():
+	get_node("UI/Loading").show()
 	add_log("=> I'am connected to the game");
 	print("CLIENT connected...")
 	self_id = get_tree().get_network_unique_id()
