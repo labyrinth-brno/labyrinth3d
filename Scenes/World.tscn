@@ -18,3 +18,5 @@ script = ExtResource( 4 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25602, 2.2067, 1.71402 )
+
+[editable path="UI"]
