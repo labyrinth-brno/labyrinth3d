@@ -26,6 +26,9 @@ var self_id = 0
 var paused = true
 var nick= ""
 
+var changes = {}
+
+
 var RemotePlayer = load("res://Components/RemotePlayer/RemotePlayer.tscn")
 
 ################################################################################
@@ -66,7 +69,8 @@ func _player_connected(id):
 	$Players.add_child(player)
 	distribute_position(player.translation)
 	add_log("=> Connected and drawed player: " + str(id) + " rendered at: " + str(player.translation));
-	
+	rpc_id(id, "generate_terrain", changes)
+
 func _player_disconnected(id):
 	var player = $Players.get_node("pl_" + str(id))
 	player.queue_free()
@@ -81,25 +85,32 @@ remote func update_remote_player_position(id, pos: Vector3):
 			player.translate(pos - player.translation)	
 			#player.target_position = pos
 	
-remote func remote_set_block(id, block_pos, block_id):
-	print("... remote_set_block")
-	if id != self_id:
-		print("SETTING REMOTE BLOCK: " + str(block_pos) + " => " + str(block_id))
-		set_block_global_position(block_pos, block_id)
 	
 func distribute_position(new_pos):
 	rpc_unreliable("update_remote_player_position", get_tree().get_network_unique_id(), new_pos)
+
+remote func remote_set_block(id, block_position, block_id):
+	print("Prisel novy blok...")
+	if id != self_id:
+		set_block_global_position(block_position, block_id)
 	
 func distribute_set_block(block_position, block_id):
-	print("Distributing new block at " + str(block_position) + " ID: " + str(block_id))
-	rpc("remote_set_block", get_tree().get_network_unique_id(), block_position, block_id)
+	print("Posilam info o vytvoreni bloku ostatnim...")
+	rpc("remote_set_block", get_tree().get_network_unique_id(), block_position, block_id) 
+	 
 	
-
+remote func generate_terrain(data):
+	print("LOADING...")
+	for block_position in data.keys():
+		set_block_global_position(block_position, data[block_position])
+	print("DONE")
+	
 remote func register_player(id, info):
 	players[id] = info
 	if get_tree().is_network_server():
 		add_log("[+] new client, registering server to the new client");
 		rpc_id(id, "register_player", 1, { "nick": "Server" })
+		
 		for peer_id in players:
 			add_log("[+] registering new client to player: " + str(peer_id));
 			rpc_id(id, "register_player", peer_id, players[peer_id])
@@ -172,6 +183,8 @@ func get_block_global_position(block_global_position):
 
 
 func set_block_global_position(block_global_position, block_id):
+	changes[block_global_position] = block_id
+	
 	var chunk_position = (block_global_position / Chunk.CHUNK_SIZE).floor()
 	var chunk = _chunks[chunk_position]
 	var sub_position = block_global_position.posmod(Chunk.CHUNK_SIZE)
